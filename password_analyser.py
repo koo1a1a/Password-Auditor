@@ -1,4 +1,5 @@
 import getpass
+import math
 from collections import Counter
 
 def main():
@@ -14,7 +15,7 @@ def main():
     variety = char_variety(analysis)
     repeated = find_repeat(password)
     sequential = sequential_check(password)
-
+    entropy = entropy_calc(password)
 
     print("\nPASSWORD ANALYSIS...")
     print("-" * 50)
@@ -24,16 +25,20 @@ def main():
     print(f"PASSWORD LOWERCASE: {checkmark(analysis['lowercase'])}")
     print(f"PASSWORD NUMBER: {checkmark(analysis['numbers'])}")
     print(f"PASSWORD SPECIAL CHAR: {checkmark(analysis['special'])}")
-    print(f"SEQUENTIAL CHARACTERS: {checkmark(sequential)}")
 
     print(f"\nLENGTH RATING: {length_rating}")
     print(f"\nCHARACTER VARIETY SCORE: {variety}/4")
+    print(f"SEQUENTIAL CHARACTERS: {checkmark(sequential)}")
 
     if repeated:
         print("REPEATED CHARACTERS: ✗")
         print(f"REPEATED: {repeated}")
     else:
         print("REPEATED CHARACTERS: ✓")
+    print(f"ENTROPY: {entropy:.1f} bits")
+
+
+
 
 if __name__ == "__main__":
     main()
@@ -44,7 +49,7 @@ def character_analysis(password):
         "uppercase": any(char.isupper() for char in password),
         "lowercase": any(char.islower() for char in password),
         "numbers": any(char.isdigit() for char in password),
-        "special": any(char.isalnum() for char in password),
+        "special": any(not char.isalnum() for char in password),
     }
 
 def checkmark(value):
@@ -100,3 +105,19 @@ def sequential_check(password):
             if sequence[i:i + 3] in password:
                 return True
     return False
+
+def entropy_calc(password):
+    charset_size = 0
+
+    if any(char.islower() for char in password):
+        charset_size += 26
+    if any(char.isupper() for char in password):
+        charset_size += 26
+    if any(char.isdigit() for char in password):
+        charset_size += 10
+    if any(not char.isalnum() for char in password):
+        charset_size += 32 
+    if charset_size == 0:
+        return 0
+
+    return math.log2(charset_size) * len(password)
