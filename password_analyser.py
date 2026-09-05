@@ -6,10 +6,18 @@ def main():
     print("=" * 50)
 
     #getpass used to hide name for privacy reasons 
-    password = getpass.getpass("Enter unique password: ")
+    password = getpass.getpass("ENTER UNIQUE PASSWORD: ")
 
-    print("\nPassword has been recieved")
-    print(f"Password lenght: {len(password)}")
+    analysis = character_analysis(password)
+
+    print("\nPASSWORD ANALYSIS...")
+    print("-" * 50)
+
+    print(f"PASSWORD LENGTH: {checkmark(analysis['length'])}")
+    print(f"PASSWORD UPPERCASE: {checkmark(analysis['uppercase'])}")
+    print(f"PASSWORD LOWERCASE: {checkmark(analysis['lowercase'])}")
+    print(f"PASSWORD NUMBER: {checkmark(analysis['numbers'])}")
+    print(f"PASSWORD SPECIAL CHAR: {checkmark(analysis['special'])}")
 
 if __name__ == "__main__":
     main()
@@ -17,5 +25,11 @@ if __name__ == "__main__":
 def character_analysis(password):
     return {
         "length": len(password),
-        
+        "uppercase": any(char.isupper() for char in password),
+        "lowercase": any(char.islower() for char in password),
+        "numbers": any(char.isdigit() for char in password),
+        "special": any(char.isalnum() for char in password),
     }
+
+def checkmark(value):
+    return "✓" if value else "✗"
