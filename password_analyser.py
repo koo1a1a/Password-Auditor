@@ -1,4 +1,5 @@
 import getpass
+from collections import Counter
 
 def main():
     print("=" * 50)
@@ -11,6 +12,7 @@ def main():
     analysis = character_analysis(password)
     length_rating = length_analysis(analysis["length"])
     variety = character_analysis(analysis)
+    repeated = find_repeat(password)
 
 
     print("\nPASSWORD ANALYSIS...")
@@ -24,6 +26,12 @@ def main():
 
     print(f"\nLENGTH RATING: {length_rating}")
     print(f"\nCHARACTER VARIETY SCORE: {variety}/4")
+
+    if repeated:
+        print("REPEATED CHARACTERS: ✗")
+        print(f"REPEATED: {repeated}")
+    else:
+        print("REPEATED CHARACTERS: ✓")
 
 if __name__ == "__main__":
     main()
@@ -63,3 +71,14 @@ def char_variety(analysis):
         catagories += 1
 
     return catagories
+
+def find_repeat(password):
+    counts = Counter(password)
+
+    repeated = {
+        char: count
+        for char, count in counts.items()
+        if count >= 3
+    }
+
+    return repeated
