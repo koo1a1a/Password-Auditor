@@ -11,8 +11,9 @@ def main():
 
     analysis = character_analysis(password)
     length_rating = length_analysis(analysis["length"])
-    variety = character_analysis(analysis)
+    variety = char_variety(analysis)
     repeated = find_repeat(password)
+    sequential = sequential_check(password)
 
 
     print("\nPASSWORD ANALYSIS...")
@@ -23,6 +24,7 @@ def main():
     print(f"PASSWORD LOWERCASE: {checkmark(analysis['lowercase'])}")
     print(f"PASSWORD NUMBER: {checkmark(analysis['numbers'])}")
     print(f"PASSWORD SPECIAL CHAR: {checkmark(analysis['special'])}")
+    print(f"SEQUENTIAL CHARACTERS: {checkmark(sequential)}")
 
     print(f"\nLENGTH RATING: {length_rating}")
     print(f"\nCHARACTER VARIETY SCORE: {variety}/4")
@@ -82,3 +84,19 @@ def find_repeat(password):
     }
 
     return repeated
+
+def sequential_check(password):
+    password = password.lower()
+    sequences = [
+        "abcdefghijklmnopqrstuvwxyz",
+        "0123456789",
+        "qwertyuiop",
+        "asdfghjkl",
+        "zxcvbnm"
+    ]
+
+    for sequence in sequences:
+        for i in range(len(sequence) - 2):
+            if sequence[i:i + 3] in password:
+                return True
+    return False
