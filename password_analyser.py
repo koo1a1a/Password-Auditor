@@ -9,6 +9,8 @@ def main():
     password = getpass.getpass("ENTER UNIQUE PASSWORD: ")
 
     analysis = character_analysis(password)
+    length_rating = length_analysis(analysis["length"])
+
 
     print("\nPASSWORD ANALYSIS...")
     print("-" * 50)
@@ -18,6 +20,8 @@ def main():
     print(f"PASSWORD LOWERCASE: {checkmark(analysis['lowercase'])}")
     print(f"PASSWORD NUMBER: {checkmark(analysis['numbers'])}")
     print(f"PASSWORD SPECIAL CHAR: {checkmark(analysis['special'])}")
+
+    print(f"\nLENGTH RATING: {length_rating}")
 
 if __name__ == "__main__":
     main()
@@ -33,3 +37,13 @@ def character_analysis(password):
 
 def checkmark(value):
     return "✓" if value else "✗"
+
+def length_analysis(length):
+    if length < 6:
+        return "VERY WEAK"
+    elif length < 10:
+        return "WEAK"
+    elif length < 14:
+        return "STRONG"
+    else:
+        return "VERY STRONG"
