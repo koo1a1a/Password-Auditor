@@ -10,6 +10,7 @@ def main():
 
     analysis = character_analysis(password)
     length_rating = length_analysis(analysis["length"])
+    variety = character_analysis(analysis)
 
 
     print("\nPASSWORD ANALYSIS...")
@@ -22,6 +23,7 @@ def main():
     print(f"PASSWORD SPECIAL CHAR: {checkmark(analysis['special'])}")
 
     print(f"\nLENGTH RATING: {length_rating}")
+    print(f"\nCHARACTER VARIETY SCORE: {variety}/4")
 
 if __name__ == "__main__":
     main()
@@ -47,3 +49,17 @@ def length_analysis(length):
         return "STRONG"
     else:
         return "VERY STRONG"
+
+def char_variety(analysis):
+    catagories = 0
+
+    if analysis["uppercase"]:
+        catagories += 1
+    if analysis["lowercase"]:
+        catagories += 1
+    if analysis["numbers"]:
+        catagories += 1
+    if analysis["special"]:
+        catagories += 1
+
+    return catagories
